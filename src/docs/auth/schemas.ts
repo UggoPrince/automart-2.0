@@ -1,5 +1,16 @@
 import { duplicateUser, errorInvalidEmailPass } from '../../utilities/messages/user/failure';
-import { dateType, id, statusCode, message, objectType, access_token, email, password } from '../general-types';
+import {
+  dateType,
+  id,
+  statusCode,
+  message,
+  objectType,
+  access_token,
+  email,
+  password,
+  errorMessage,
+  errorType422,
+} from '../general-types';
 
 const invalidFormField = {
   type: 'object',
@@ -56,12 +67,9 @@ export const CreatedUser = {
 export const signupFormError = {
   ...objectType({
     ...statusCode(422),
-    ...message('Invalid form field(s)'),
-    errors: {
-      type: 'array',
-      items: {
-        ...invalidFormField,
-      },
+    ...errorMessage('firstName'),
+    error: {
+      ...errorType422,
     },
   }),
 };
@@ -81,19 +89,17 @@ export const loginUser = {
 export const loginFormError = {
   ...objectType({
     ...statusCode(422),
-    ...message('Invalid form field(s)'),
-    errors: {
-      type: 'array',
-      items: {
-        ...invalidFormField,
-      },
+    error: {
+      ...errorType422,
     },
   }),
 };
 export const loginWrongCred = {
   ...objectType({
     ...statusCode(400),
-    ...message(errorInvalidEmailPass()),
+    error: {
+      ...errorType422,
+    },
   }),
 };
 

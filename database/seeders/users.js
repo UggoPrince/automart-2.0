@@ -3,7 +3,7 @@ const users = [
     firstName: 'john',
     lastName: 'doe',
     email: 'johndoe@gmail.com',
-    password: 'doe123456',
+    password: 'Doe$123456',
     address: 'no 55 ikorodu road',
     isAdmin: true,
   },
@@ -11,7 +11,7 @@ const users = [
     firstName: 'sarah',
     lastName: 'conoh',
     email: 'sarahconoh@gmail.com',
-    password: 'conoh123456',
+    password: 'Conoh@123456',
     address: 'no 56 ibadan road',
     isAdmin: false,
   },
@@ -19,10 +19,10 @@ const users = [
     firstName: 'brian',
     lastName: 'emeka',
     email: 'brianemeka@gmail.com',
-    password: 'emeka123456',
+    password: 'Emeka@123456',
     address: 'no 10 rumuokoro road',
     isAdmin: false,
   },
 ];
 
-module.exports.users = users;
+module.exports = { users };
