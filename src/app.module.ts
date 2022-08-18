@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
@@ -6,6 +7,14 @@ import { getDbUrl } from './utilities/getEnv';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { CarsModule } from './modules/cars/cars.module';
 import { AuthModule } from './modules/auth/auth.module';
+
+declare global {
+  namespace Express {
+    interface Request {
+      car: any;
+    }
+  }
+}
 
 const dbUrl = getDbUrl();
 

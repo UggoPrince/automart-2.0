@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from '../../users/shemas/user.schema';
 
 export class CreateCarDto {
+  @ApiProperty()
+  owner: User;
+
   @ApiProperty()
   state: string;
 

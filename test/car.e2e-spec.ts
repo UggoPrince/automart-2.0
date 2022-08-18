@@ -11,6 +11,7 @@ const user = {
   password: 'Doe$123456',
 };
 let token1 = '';
+// let car1Id = '';
 
 beforeAll(async () => {
   moduleFixture = await Test.createTestingModule({
@@ -47,4 +48,14 @@ describe('User e2e tests', () => {
       expect(res.status).toEqual(422);
     });
   });
+  /* describe('PATCH /api/v2/car/{id}', () => {
+    it('should not update a car if car id is not valid', async () => {
+      const res = await request(app.getHttpServer())
+        .patch('/car/')
+        .set({ 'Content-Type': 'multipart/form-data' })
+        .set({ Authorization: 'Bearer ' })
+        .field('state', 'news');
+      expect(res.status).toEqual(401);
+    });
+  }); */
 });

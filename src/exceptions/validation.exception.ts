@@ -1,4 +1,4 @@
-import { BadRequestException, UnprocessableEntityException } from '@nestjs/common';
+import { UnprocessableEntityException } from '@nestjs/common';
 
 export class ValidationException extends UnprocessableEntityException {
   constructor(public validationErrors: any) {

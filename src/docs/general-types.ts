@@ -74,6 +74,16 @@ export const errorType422 = {
   example: 'Unprocessable Entity',
 };
 
+export const errorType400 = {
+  type: 'string',
+  example: 'Bad Request',
+};
+
+export const errorType404 = {
+  type: 'string',
+  example: 'Not Found',
+};
+
 export const objectType = (obj: any) => {
   return {
     type: 'object',
