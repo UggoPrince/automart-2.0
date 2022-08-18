@@ -3,20 +3,20 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationError } from 'class-validator';
 import { AppModule } from './app.module';
-import { ValidationException } from './filters/validation.exception';
+import { NotFoundFilter } from './filters/notfound.filter';
+import { ValidationException } from './exceptions/validation.exception';
 import { ValidationFilter } from './filters/validation.filter';
-// import { ErrorsInterceptor } from './interceptors/errors.interceptor';
+import { BadRequestFilter } from './filters/badrequest.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['log', 'error', 'warn', 'debug', 'verbose'],
   });
-  // app.useGlobalInterceptors(new ErrorsInterceptor());
   app.setGlobalPrefix('api/v2');
-  app.useGlobalFilters(new ValidationFilter());
+  app.useGlobalFilters(new ValidationFilter(), new NotFoundFilter(), new BadRequestFilter());
   app.useGlobalPipes(
     new ValidationPipe({
-      skipMissingProperties: false,
+      skipMissingProperties: true,
       exceptionFactory: (errors: ValidationError[]) => {
         const messages: any = {};
         errors.map((error) => {

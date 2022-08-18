@@ -10,6 +10,8 @@ import {
   UseInterceptors,
   UploadedFile,
   Req,
+  Patch,
+  Param,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -23,13 +25,15 @@ import {
 import { FileStorageService } from '../../services/FileStorage';
 import { CarsService } from './cars.service';
 import { success } from '../../utilities/response';
-import { carAdded } from '../../utilities/messages/car/success';
+import { carAdded, carUpdated } from '../../utilities/messages/car/success';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileUploadPipe } from '../../pipes/file-upload.pipe';
 import { CarToCreateDto } from './dto/car-to-create.dto';
 import { diskStorage } from 'multer';
 import { authHeader, unAuthorized } from '../../docs/general-types';
 import { Resp } from '../../docs/car/response';
+import { CarBelongsToUser, CarExist } from '../../decorators/car.decorator';
+import { UpdateCarDto } from './dto/update-car.dto';
 
 @Controller('car')
 export class CarsController {
@@ -56,7 +60,23 @@ export class CarsController {
     const { user } = req;
     const { _id }: any = user;
     const { url } = await FileStorageService.uploadImage(photo);
-    const car = await this.carsService.create({ ...carToCreateDto, imageUrl: url }, _id);
+    const car = await this.carsService.create({ ...carToCreateDto, owner: _id, imageUrl: url });
     return success(res, 201, carAdded(), car);
+  }
+
+  @UseGuards(JwtAuthGuard, CarExist, CarBelongsToUser)
+  @Patch(':id')
+  @HttpCode(200)
+  @ApiTags('Cars')
+  @ApiHeader(authHeader)
+  @ApiBody({ type: UpdateCarDto })
+  @ApiResponse(Resp.updateCar_200)
+  @ApiResponse(Resp.updateCar_400)
+  @ApiResponse(Resp.car404)
+  @ApiResponse(unAuthorized)
+  async update(@Param('id') id: string, @Body() body: UpdateCarDto, @Res() res: Response) {
+    Logger.log('Update Car');
+    const car = await this.carsService.update(id, body);
+    return success(res, 200, carUpdated(), car);
   }
 }

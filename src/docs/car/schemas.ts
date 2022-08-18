@@ -7,6 +7,8 @@ import {
   errorType422,
   objectType,
   errorMessage,
+  errorType400,
+  errorType404,
 } from '../general-types';
 
 const car = {
@@ -42,9 +44,29 @@ const car = {
   createdAt: {
     ...dateType,
   },
-  deletedAt: {
+  updatedAt: {
     ...dateType,
   },
+};
+
+export const carNotFound = {
+  ...objectType({
+    ...statusCode(404),
+    ...message('Car not found.'),
+    error: {
+      ...errorType404,
+    },
+  }),
+};
+
+export const carBadRequest = {
+  ...objectType({
+    ...statusCode(400),
+    ...message('Invalid car ID.'),
+    error: {
+      ...errorType400,
+    },
+  }),
 };
 
 export const CreateCarError = {
@@ -61,7 +83,23 @@ export const CreatedCar = {
   type: 'object',
   properties: {
     ...statusCode(201),
-    ...message('Success'),
+    ...message('Car added.'),
+    data: {
+      type: 'object',
+      properties: {
+        _id: id,
+        ...car,
+        __v: v,
+      },
+    },
+  },
+};
+
+export const UpdatedCar = {
+  type: 'object',
+  properties: {
+    ...statusCode(200),
+    ...message('Car Updated.'),
     data: {
       type: 'object',
       properties: {

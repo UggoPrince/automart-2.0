@@ -14,11 +14,7 @@ export class UsersService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
   create(createUserDto: CreateUserDto): Promise<User> {
-    return new this.userModel({
-      ...createUserDto,
-    })
-      .save()
-      .then(getData);
+    return new this.userModel(createUserDto).save().then(getData);
   }
 
   findOne(queryObj: object): Promise<User> {
