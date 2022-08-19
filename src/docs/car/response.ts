@@ -1,4 +1,11 @@
-import { carBadRequest, carNotFound, CreateCarError, CreatedCar, UpdatedCar } from './schemas';
+import {
+  carBadRequest,
+  carNotFound,
+  CreateCarError,
+  CreatedCar,
+  GetCar,
+  UpdatedCar,
+} from './schemas';
 
 export const createCar_201 = {
   schema: CreatedCar,
@@ -29,10 +36,17 @@ export const updateCar_400 = {
   description: 'The car Id is not valid',
 };
 
+export const getCar_200 = {
+  schema: GetCar,
+  status: 200,
+  description: 'car retrieved.',
+};
+
 export const Resp = {
   createCar_201,
   createCar_422,
   updateCar_200,
   car404,
   updateCar_400,
+  getCar_200,
 };
