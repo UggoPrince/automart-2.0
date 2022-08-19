@@ -110,3 +110,19 @@ export const UpdatedCar = {
     },
   },
 };
+
+export const GetCar = {
+  type: 'object',
+  properties: {
+    ...statusCode(200),
+    ...message('Car successfully retrieved.'),
+    data: {
+      type: 'object',
+      properties: {
+        _id: id,
+        ...car,
+        __v: v,
+      },
+    },
+  },
+};

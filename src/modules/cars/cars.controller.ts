@@ -12,6 +12,7 @@ import {
   Req,
   Patch,
   Param,
+  Get,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -25,7 +26,7 @@ import {
 import { FileStorageService } from '../../services/FileStorage';
 import { CarsService } from './cars.service';
 import { success } from '../../utilities/response';
-import { carAdded, carUpdated } from '../../utilities/messages/car/success';
+import { carAdded, carGotten, carUpdated } from '../../utilities/messages/car/success';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileUploadPipe } from '../../pipes/file-upload.pipe';
 import { CarToCreateDto } from './dto/car-to-create.dto';
@@ -78,5 +79,19 @@ export class CarsController {
     Logger.log('Update Car');
     const car = await this.carsService.update(id, body);
     return success(res, 200, carUpdated(), car);
+  }
+
+  @UseGuards(CarExist)
+  @Get(':id')
+  @HttpCode(200)
+  @ApiTags('Cars')
+  @ApiHeader(authHeader)
+  @ApiResponse(Resp.getCar_200)
+  @ApiResponse(Resp.updateCar_400)
+  @ApiResponse(Resp.car404)
+  async get(@Res() res: Response, @Req() req: Request) {
+    Logger.log('Get Car');
+    const { car } = req;
+    return success(res, 200, carGotten(), car);
   }
 }
