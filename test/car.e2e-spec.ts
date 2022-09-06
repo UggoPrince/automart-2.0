@@ -1,10 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import { bootstrap, moduleFixture } from './app';
 
 let app: INestApplication;
-let moduleFixture: TestingModule;
 
 const user = {
   email: 'johndoe@gmail.com',
@@ -12,16 +10,13 @@ const user = {
 };
 let token1 = '';
 // let car1Id = '';
+const loginEndpoint = '/api/v2/auth/login';
+const carEndpoint = '/api/v2/cars';
 
 beforeAll(async () => {
-  moduleFixture = await Test.createTestingModule({
-    imports: [AppModule],
-  }).compile();
+  app = await bootstrap();
 
-  app = moduleFixture.createNestApplication();
-  await app.init();
-
-  const login1 = await request(app.getHttpServer()).post('/auth/login').send(user);
+  const login1 = await request(app.getHttpServer()).post(loginEndpoint).send(user);
   token1 = login1.body.data.access_token;
 });
 
@@ -29,11 +24,11 @@ afterAll(async () => {
   await moduleFixture.close();
 });
 
-describe('User e2e tests', () => {
-  describe('POST /api/v2/car', () => {
+describe('Car e2e tests', () => {
+  describe('POST /api/v2/cars', () => {
     it('should not save a car if not unauthorized', async () => {
       const res = await request(app.getHttpServer())
-        .post('/car')
+        .post(carEndpoint)
         .set({ 'Content-Type': 'multipart/form-data' })
         .set({ Authorization: 'Bearer ' })
         .field('state', 'news');
@@ -41,21 +36,21 @@ describe('User e2e tests', () => {
     });
     it('should not save a car if a field value is invalid', async () => {
       const res = await request(app.getHttpServer())
-        .post('/car')
+        .post(carEndpoint)
         .set({ 'Content-Type': 'multipart/form-data' })
         .set({ Authorization: `Bearer ${token1}` })
         .field('state', 'news');
       expect(res.status).toEqual(422);
     });
   });
-  /* describe('PATCH /api/v2/car/{id}', () => {
-    it('should not update a car if car id is not valid', async () => {
-      const res = await request(app.getHttpServer())
-        .patch('/car/')
-        .set({ 'Content-Type': 'multipart/form-data' })
-        .set({ Authorization: 'Bearer ' })
-        .field('state', 'news');
-      expect(res.status).toEqual(401);
+  describe('GET /api/v2/cars', () => {
+    it('should get cars', async () => {
+      const res = await request(app.getHttpServer()).get(carEndpoint);
+      expect(res.status).toEqual(200);
     });
-  }); */
+    it('should not get cars', async () => {
+      const res = await request(app.getHttpServer()).get(carEndpoint).query({ limit: 'd' });
+      expect(res.status).toEqual(422);
+    });
+  });
 });

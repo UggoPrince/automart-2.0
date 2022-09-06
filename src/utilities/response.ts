@@ -31,7 +31,12 @@ export const failure = (
  * @param {object} data
  * @returns {object} response
  */
-export const success = (res: Response, statusCode = 200, message = 'Success', data = {}): object => {
+export const success = (
+  res: Response,
+  statusCode = 200,
+  message = 'Success',
+  data = {},
+): object => {
   const successObject = {
     statusCode,
     message,
@@ -41,7 +46,11 @@ export const success = (res: Response, statusCode = 200, message = 'Success', da
   return res.status(statusCode).send(successObject);
 };
 
-export const failure2 = (res: Response, statusCode = 503, message: object | string = 'An error occurred'): object => {
+export const failure2 = (
+  res: Response,
+  statusCode = 503,
+  message: object | string = 'An error occurred',
+): object => {
   const errorObject = {
     statusCode,
     message,

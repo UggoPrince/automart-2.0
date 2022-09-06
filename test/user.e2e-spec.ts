@@ -3,7 +3,7 @@ import * as request from 'supertest';
 import { bootstrap, moduleFixture } from './app';
 
 let app: INestApplication;
-const signupEndpoint = '/api/v2/user';
+const signupEndpoint = '/api/v2/users';
 const loginEndpoint = '/api/v2/auth/login';
 
 beforeAll(async () => {
@@ -44,9 +44,9 @@ describe('User e2e tests', () => {
     address: '12****---',
   };
 
-  describe('POST /api/v2/user', () => {
+  describe('POST /api/v2/users', () => {
     it('should sign up a user', async () => {
-      const res = await request(app.getHttpServer()).post('/api/v2/user').send(newUser);
+      const res = await request(app.getHttpServer()).post(signupEndpoint).send(newUser);
       expect(res.status).toEqual(201);
       expect(res.type).toEqual('application/json');
       expect(res.body.data).toHaveProperty('access_token');
