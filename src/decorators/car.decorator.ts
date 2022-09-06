@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import mongoose from 'mongoose';
-import { BadRequestError } from 'src/exceptions/badrequest.exception';
+import { BadRequestError } from '../exceptions/badrequest.exception';
 import { NotFoundError } from '../exceptions/notfound.exception';
 import { CarsService } from '../modules/cars/cars.service';
 

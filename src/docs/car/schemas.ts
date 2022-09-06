@@ -49,6 +49,23 @@ const car = {
   },
 };
 
+const carObj = {
+  _id: id.example,
+  owner: '62e71f51e6220c5777f970e2',
+  state: 'used',
+  status: 'available',
+  price: 1000000,
+  title: 'clean venza',
+  manufacturer: 'toyota',
+  model: '2015 model',
+  bodyType: 'SUV',
+  imageUrl:
+    'http://res.cloudinary.com/dya3r9cfe/image/upload/v1660305573/automart_dev/acf8dfba8e32deb42e67ab80b55e528d_l3qjbz.jpg',
+  createdAt: '2022-09-02T23:55:04.850Z',
+  updatedAt: '2022-09-02T23:55:04.850Z',
+  __v: 0,
+};
+
 export const carNotFound = {
   ...objectType({
     ...statusCode(404),
@@ -125,4 +142,26 @@ export const GetCar = {
       },
     },
   },
+};
+
+export const GetCars = {
+  type: 'object',
+  properties: {
+    ...statusCode(200),
+    ...message('Cars successfully retrieved.'),
+    data: {
+      type: 'array',
+      example: [carObj],
+    },
+  },
+};
+
+export const GetCarsError = {
+  ...objectType({
+    ...statusCode(422),
+    ...errorMessage('skip', 'skip must be a number string'),
+    error: {
+      ...errorType422,
+    },
+  }),
 };

@@ -4,6 +4,8 @@ import {
   CreateCarError,
   CreatedCar,
   GetCar,
+  GetCars,
+  GetCarsError,
   UpdatedCar,
 } from './schemas';
 
@@ -42,6 +44,18 @@ export const getCar_200 = {
   description: 'car retrieved.',
 };
 
+export const getCars_200 = {
+  schema: GetCars,
+  status: 200,
+  description: 'When you get a list of cars',
+};
+
+export const getCars_422 = {
+  schema: GetCarsError,
+  status: 422,
+  description: 'Wrong query strings.',
+};
+
 export const Resp = {
   createCar_201,
   createCar_422,
@@ -49,4 +63,6 @@ export const Resp = {
   car404,
   updateCar_400,
   getCar_200,
+  getCars_200,
+  getCars_422,
 };

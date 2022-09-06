@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
-import { ValidationException } from '../src/filters/validation.exception';
+import { ValidationException } from '../src/exceptions/validation.exception';
 import { ValidationFilter } from '../src/filters/validation.filter';
 import { config } from 'dotenv';
 

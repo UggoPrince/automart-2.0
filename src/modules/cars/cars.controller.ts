@@ -13,6 +13,8 @@ import {
   Patch,
   Param,
   Get,
+  Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -22,11 +24,17 @@ import {
   ApiResponse,
   ApiHeader,
   ApiTags,
+  ApiParam,
 } from '@nestjs/swagger';
 import { FileStorageService } from '../../services/FileStorage';
 import { CarsService } from './cars.service';
 import { success } from '../../utilities/response';
-import { carAdded, carGotten, carUpdated } from '../../utilities/messages/car/success';
+import {
+  carAdded,
+  carGotten,
+  carListGotten,
+  carUpdated,
+} from '../../utilities/messages/car/success';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileUploadPipe } from '../../pipes/file-upload.pipe';
 import { CarToCreateDto } from './dto/car-to-create.dto';
@@ -35,14 +43,15 @@ import { authHeader, unAuthorized } from '../../docs/general-types';
 import { Resp } from '../../docs/car/response';
 import { CarBelongsToUser, CarExist } from '../../decorators/car.decorator';
 import { UpdateCarDto } from './dto/update-car.dto';
+import { GetCarsQueryDto } from './dto/get-cars-query.dto';
 
-@Controller('car')
+@ApiTags('Cars')
+@Controller('cars')
 export class CarsController {
   constructor(private readonly carsService: CarsService) {}
   @UseGuards(JwtAuthGuard)
-  @Post('')
+  @Post()
   @HttpCode(201)
-  @ApiTags('Cars')
   @ApiHeader(authHeader)
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CarToCreateDto })
@@ -68,7 +77,6 @@ export class CarsController {
   @UseGuards(JwtAuthGuard, CarExist, CarBelongsToUser)
   @Patch(':id')
   @HttpCode(200)
-  @ApiTags('Cars')
   @ApiHeader(authHeader)
   @ApiBody({ type: UpdateCarDto })
   @ApiResponse(Resp.updateCar_200)
@@ -84,8 +92,6 @@ export class CarsController {
   @UseGuards(CarExist)
   @Get(':id')
   @HttpCode(200)
-  @ApiTags('Cars')
-  @ApiHeader(authHeader)
   @ApiResponse(Resp.getCar_200)
   @ApiResponse(Resp.updateCar_400)
   @ApiResponse(Resp.car404)
@@ -93,5 +99,15 @@ export class CarsController {
     Logger.log('Get Car');
     const { car } = req;
     return success(res, 200, carGotten(), car);
+  }
+
+  @Get()
+  @HttpCode(200)
+  @ApiResponse(Resp.getCars_200)
+  @ApiResponse(Resp.getCars_422)
+  async getCars(@Query() query: GetCarsQueryDto, @Res() res: Response) {
+    Logger.log('Get a list of Cars');
+    const cars = await this.carsService.getCars(query);
+    return success(res, 200, carListGotten(), cars);
   }
 }

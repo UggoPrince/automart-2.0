@@ -15,6 +15,6 @@ import { JwtService } from '@nestjs/jwt';
 })
 export class UsersModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserExistReturn).forRoutes('user');
+    consumer.apply(UserExistReturn).forRoutes('users');
   }
 }

@@ -7,14 +7,14 @@ import { success } from '../../utilities/response';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 
-@Controller('user')
+@Controller('users')
+@ApiTags('Users')
 export class UsersController {
   constructor(
     private readonly userService: UsersService,
     private readonly authService: AuthService,
   ) {}
 
-  @ApiTags('Users')
   @Post('')
   @HttpCode(201)
   @ApiResponse(Resp.signup_201)
