@@ -14,7 +14,7 @@ import {
   Param,
   Get,
   Query,
-  ValidationPipe,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -24,13 +24,13 @@ import {
   ApiResponse,
   ApiHeader,
   ApiTags,
-  ApiParam,
 } from '@nestjs/swagger';
 import { FileStorageService } from '../../services/FileStorage';
 import { CarsService } from './cars.service';
 import { success } from '../../utilities/response';
 import {
   carAdded,
+  carDeleted,
   carGotten,
   carListGotten,
   carUpdated,
@@ -109,5 +109,19 @@ export class CarsController {
     Logger.log('Get a list of Cars');
     const cars = await this.carsService.getCars(query);
     return success(res, 200, carListGotten(), cars);
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard, CarExist, CarBelongsToUser)
+  @HttpCode(200)
+  @ApiHeader(authHeader)
+  @ApiResponse(Resp.deleteCar_200)
+  @ApiResponse(Resp.deleteCar_400)
+  @ApiResponse(Resp.car404)
+  @ApiResponse(unAuthorized)
+  async deleteCar(@Param('id') id: string, @Res() res: Response) {
+    Logger.log(`Delete car with id: ${id}`);
+    const deletedCar = await this.carsService.delete(id);
+    return success(res, 200, carDeleted(), deletedCar);
   }
 }

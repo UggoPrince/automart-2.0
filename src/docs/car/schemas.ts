@@ -165,3 +165,9 @@ export const GetCarsError = {
     },
   }),
 };
+
+export const deleteCar = () => {
+  const car = { ...GetCar };
+  car.properties.message.example = 'Car deleted.';
+  return car;
+};
