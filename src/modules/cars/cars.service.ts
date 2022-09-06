@@ -35,4 +35,8 @@ export class CarsService {
     if (limit) dbQuery.limit(parseInt(limit, 10));
     return dbQuery.sort({ createdAt: 'desc' }).exec();
   }
+
+  delete(id: string) {
+    return this.carModel.findByIdAndDelete(id).exec();
+  }
 }

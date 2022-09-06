@@ -3,6 +3,7 @@ import {
   carNotFound,
   CreateCarError,
   CreatedCar,
+  deleteCar,
   GetCar,
   GetCars,
   GetCarsError,
@@ -56,6 +57,12 @@ export const getCars_422 = {
   description: 'Wrong query strings.',
 };
 
+export const deleteCar_200 = {
+  schema: deleteCar(),
+  status: 200,
+  description: 'Car deleted.',
+};
+
 export const Resp = {
   createCar_201,
   createCar_422,
@@ -65,4 +72,6 @@ export const Resp = {
   getCar_200,
   getCars_200,
   getCars_422,
+  deleteCar_400: updateCar_400,
+  deleteCar_200,
 };
