@@ -1,5 +1,5 @@
 import { ApiProperty, ApiHideProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { BaseUserDto } from './base-user.dto';
 
 export class CreateUserDto extends BaseUserDto {
@@ -7,12 +7,14 @@ export class CreateUserDto extends BaseUserDto {
   @MinLength(2)
   @IsString()
   @IsNotEmpty()
+  @IsDefined()
   firstName: string;
 
   @ApiProperty()
   @MinLength(2)
   @IsString()
   @IsNotEmpty()
+  @IsDefined()
   lastName: string;
 
   @ApiHideProperty()
@@ -21,5 +23,6 @@ export class CreateUserDto extends BaseUserDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
+  @IsDefined()
   address: string;
 }

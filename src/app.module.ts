@@ -7,6 +7,7 @@ import { getDbUrl } from './utilities/getEnv';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { CarsModule } from './modules/cars/cars.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { FlagsModule } from './modules/flags/flags.module';
 
 declare global {
   namespace Express {
@@ -25,6 +26,7 @@ const dbUrl = getDbUrl();
     AuthModule,
     UsersModule,
     CarsModule,
+    FlagsModule,
   ],
 })
 export class AppModule implements NestModule {

@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, MaxLength, MinLength, Validate } from 'class-validator';
+import {
+  IsDefined,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  MinLength,
+  Validate,
+} from 'class-validator';
 import { PasswordValidation, PasswordValidationRequirement } from 'class-validator-password-check';
 
 const passwordRequirement: PasswordValidationRequirement = {
@@ -13,6 +21,7 @@ export class BaseUserDto {
   @ApiProperty()
   @IsEmail()
   @IsNotEmpty()
+  @IsDefined()
   email: string;
 
   @ApiProperty()
@@ -21,5 +30,6 @@ export class BaseUserDto {
   @MinLength(8)
   @MaxLength(24)
   @IsNotEmpty()
+  @IsDefined()
   password: string;
 }
