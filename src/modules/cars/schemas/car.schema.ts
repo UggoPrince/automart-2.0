@@ -37,7 +37,7 @@ export class Car {
   createdAt: Date;
 
   @Prop({ default: new Date(), type: Date })
-  updatedAt?: Date;
+  updatedAt: Date;
 }
 
 export const CarSchema = SchemaFactory.createForClass(Car);
