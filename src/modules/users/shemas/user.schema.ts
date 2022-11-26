@@ -18,6 +18,9 @@ export class User {
   email: string;
 
   @Prop({ required: true, type: String })
+  phoneNumber: string;
+
+  @Prop({ required: true, type: String })
   password: string;
 
   @Prop({ required: true, type: String })

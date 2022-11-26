@@ -24,4 +24,8 @@ export class UsersService {
   getUserByEmail(email: string) {
     return this.findOne({ email });
   }
+
+  getUserById(id: string) {
+    return this.findOne({ id });
+  }
 }

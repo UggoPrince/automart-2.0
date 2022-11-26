@@ -22,6 +22,9 @@ export class Car {
   title: string;
 
   @Prop({ required: true, type: String })
+  description: string;
+
+  @Prop({ required: true, type: String })
   manufacturer: string;
 
   @Prop({ required: true, type: String })

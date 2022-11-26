@@ -15,6 +15,7 @@ import {
   Get,
   Query,
   Delete,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -44,11 +45,16 @@ import { Resp } from '../../docs/car/response';
 import { CarBelongsToUser, CarExist } from '../../decorators/car.decorator';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { GetCarsQueryDto } from './dto/get-cars-query.dto';
+import { GetCarQueryDto } from './dto/get-car-query.dto';
+import { UsersService } from '../users/users.service';
 
 @ApiTags('Cars')
 @Controller('cars')
 export class CarsController {
-  constructor(private readonly carsService: CarsService) {}
+  constructor(
+    private readonly carsService: CarsService,
+    private readonly usersService: UsersService,
+  ) {}
   @UseGuards(JwtAuthGuard)
   @Post()
   @HttpCode(201)
@@ -95,10 +101,18 @@ export class CarsController {
   @ApiResponse(Resp.getCar_200)
   @ApiResponse(Resp.updateCar_400)
   @ApiResponse(Resp.car404)
-  async get(@Res() res: Response, @Req() req: Request) {
+  async get(@Res() res: Response, @Req() req: Request, @Query() query: GetCarQueryDto) {
     Logger.log('Get Car');
+    const { getOwner } = query;
     const { car } = req;
-    return success(res, 200, carGotten(), car);
+    const resData = { ...car };
+    if (getOwner) {
+      const { owner } = car;
+      const { firstName, lastName, email, address, phoneNumber } =
+        await this.usersService.getUserById(owner);
+      resData.ownerDetails = { firstName, lastName, email, address, phoneNumber };
+    }
+    return success(res, 200, carGotten(), resData);
   }
 
   @Get()

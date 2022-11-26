@@ -35,6 +35,9 @@ const user = {
   email: {
     type: 'string',
   },
+  phoneNumber: {
+    type: 'string',
+  },
   address: {
     type: 'string',
   },

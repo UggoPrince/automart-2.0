@@ -1,3 +1,4 @@
+const phoneNumber = '09023219677';
 const users = [
   {
     firstName: 'john',
@@ -6,6 +7,7 @@ const users = [
     password: 'Doe$123456',
     address: 'no 55 ikorodu road',
     isAdmin: true,
+    phoneNumber,
   },
   {
     firstName: 'sarah',
@@ -14,6 +16,7 @@ const users = [
     password: 'Conoh@123456',
     address: 'no 56 ibadan road',
     isAdmin: false,
+    phoneNumber,
   },
   {
     firstName: 'brian',
@@ -22,6 +25,7 @@ const users = [
     password: 'Emeka@123456',
     address: 'no 10 rumuokoro road',
     isAdmin: false,
+    phoneNumber,
   },
 ];
 
