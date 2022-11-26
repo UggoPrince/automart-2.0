@@ -139,6 +139,26 @@ export const GetCar = {
         _id: id,
         ...car,
         __v: v,
+        ownDetails: {
+          type: 'object',
+          properties: {
+            firstName: {
+              type: 'string',
+            },
+            lastName: {
+              type: 'string',
+            },
+            email: {
+              type: 'string',
+            },
+            phoneNumber: {
+              type: 'string',
+            },
+            address: {
+              type: 'string',
+            },
+          },
+        },
       },
     },
   },

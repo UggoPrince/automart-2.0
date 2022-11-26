@@ -15,6 +15,9 @@ export class CreateCarDto {
   title: string;
 
   @ApiProperty()
+  description: string;
+
+  @ApiProperty()
   manufacturer: string;
 
   @ApiProperty()

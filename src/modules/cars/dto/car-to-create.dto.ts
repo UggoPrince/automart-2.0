@@ -24,6 +24,12 @@ export class CarToCreateDto {
   @IsNotEmpty()
   @IsString()
   @IsDefined()
+  description: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  @IsDefined()
   manufacturer: string;
 
   @ApiProperty()

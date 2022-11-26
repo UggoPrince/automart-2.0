@@ -4,10 +4,12 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+const { TEST_DB_URL, DEV_DB_URL, NODE_ENV } = process.env;
+
 const config = {
   mongodb: {
     // TODO Change (or review) the url to your MongoDB:
-    url: process.env.TEST_DB_URL,
+    url: NODE_ENV === 'test' ? TEST_DB_URL : DEV_DB_URL,
 
     // TODO Change this to your database name:
     //databaseName: "automart_test",

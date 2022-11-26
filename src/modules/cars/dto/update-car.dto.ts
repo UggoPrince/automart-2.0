@@ -27,6 +27,11 @@ export class UpdateCarDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  description: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
   manufacturer: string;
 
   @ApiProperty()
